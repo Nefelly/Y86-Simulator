@@ -1,0 +1,16 @@
+0x000: 30f00100000000000000 |    irmovq $1, %rax  
+0x00a: 30f10200000000000000 |    irmovq $2, %rcx  
+0x014: 6601                 |    comp %rax,%rcx
+0x016: 783300000000000000   |    jb target Not taken
+0x01f: 6601                 |    comp %rax,%rcx
+0x021: 773300000000000000   |    ja target taken
+0x030: 10                   |    nop
+0x031: 00                   |    halt
+0x032: 10                   |    nop
+0x033: 6401                 |    rcx<<rax  rcx变为4
+0x035: 6510                 |    rax>>rcx  rax变为0
+
+可以看到 rax rcx变成了1 2
+jb指令到达M阶段时 发现W阶段的comp指令根据ja的判断条件给出的cnd是0
+从M_valA中取出31 0x1f 继续运行
+最后rcx愉快地变成了4 rax伤心地变成了0
